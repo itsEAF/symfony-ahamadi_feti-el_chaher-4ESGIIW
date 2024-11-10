@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des réservations{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Liste des réservations</h2>
+
+    {% if bookings is not empty %}
+        <table class="table table-striped table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Service</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Utilisateur</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.service.name }}</td>
+                        <td>{{ booking.date|date('d/m/Y H:i') }}</td>
+                        <td>{{ booking.userAppli.name ~ ' - ' ~ booking.userAppli.email }}</td> <!-- Assurez-vous que la propriété existe dans l'entité UserApplication -->
+                        <td>
+                            <a href="{{ path('app_booking_cancel', { 'id': booking.id }) }}" 
+                               class="btn btn-danger btn-sm">
+                               Annuler
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info">
+            <p>Aucune réservation trouvée.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

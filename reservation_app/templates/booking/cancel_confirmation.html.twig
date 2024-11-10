@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annulation de la réservation{% endblock %}
+
+{% block body %}
+<div class="container mt-5 d-flex justify-content-center align-items-center">
+    <div class="text-center">
+        <h1 class="mb-4">Confirmation de l'annulation</h1>
+
+        <div class="alert alert-success">
+            <p>La réservation pour le service <strong>{{ booking.service.name }}</strong> a été annulée avec succès.</p>
+            <p>Utilisateur : {{ booking.userAppli.name ~ ' - ' ~ booking.userAppli.email }}</p>
+            <p>Date de la réservation : {{ booking.date|date('d/m/Y H:i') }}</p>
+        </div>
+
+        <a href="{{ path('app_booking_list') }}" class="btn btn-primary">Retour à la liste des réservations</a>
+    </div>
+</div>
+{% endblock %}

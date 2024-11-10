@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des services{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h1 class="title">Liste des services</h1>
+    </div>
+    <div class="row justify-content-center">
+        {% for service in services %}
+            <div class="col-md-4 mb-4">
+                <div class="service-item card shadow-sm p-3">
+                    <h2 class="service-name">{{ service.name }}</h2>
+                    <p class="service-description">{{ service.description }}</p>
+                    <p class="service-price">Prix : {{ service.price }} €</p>
+                    <a href="{{ path('app_booking_new', {id: service.id}) }}" class="btn btn-primary btn-custom">Réserver</a>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center">Aucun service disponible pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
