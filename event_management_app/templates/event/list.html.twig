@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des événements{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Liste des événements</h1>
+    
+    {% if events|length > 0 %}
+        <div class="row">
+            {% for event in events %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ event.name }}</h5>
+                            <p class="card-text">
+                                <strong>Date :</strong> {{ event.date|date('Y-m-d H:i') }}<br>
+                                <strong>Lieu :</strong> {{ event.location }}<br>
+                                <strong>Participants :</strong> {{ event.participants|length }}
+                            </p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{{ path('event_view', { id: event.id }) }}" class="btn btn-primary btn-sm">
+                                Voir
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">Aucun événement trouvé.</p>
+    {% endif %}
+</div>
+{% endblock %}

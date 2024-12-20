@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'événement{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Informations sur l'événement</h4>
+            <p><strong>Nom :</strong> {{ event.name }}</p>
+            <p><strong>Date :</strong> {{ event.date|date('Y-m-d H:i') }}</p>
+            <p><strong>Lieu :</strong> {{ event.location }}</p>
+
+            <h4 class="card-title">Calculer la distance de l'événement</h4>
+            <form action="{{ path('event_distance', {'id': event.id}) }}" method="get">
+                <div class="form-group">
+                    <label for="lat">Latitude</label>
+                    <input type="number" id="lat" name="lat" step="any" class="form-control" placeholder="Entrez votre latitude" required>
+                </div>
+                <div class="form-group">
+                    <label for="lon">Longitude</label>
+                    <input type="number" id="lon" name="lon" step="any" class="form-control" placeholder="Entrez votre longitude" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Calculer la distance</button>
+            </form>
+
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <h2 class="mb-3 text-center">Participants ({{ event.participants|length }})</h2>
+    {% for message in app.flashes('participant_success') %}
+        <div class="alert alert-success mt-3">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% if event.participants|length > 0 %}
+        <div class="container">
+            <table class="table">
+                 <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participant in event.participants %}
+                        <tr>
+                            <td>{{ participant.name }}</td>
+                            <td>{{ participant.email }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Aucun participant enregistré pour cet événement.</p>
+    {% endif %}
+
+    <div class="mb-3 d-flex justify-content-between">
+        <a href="{{ path('participant_add', { eventId: event.id }) }}" class="btn btn-primary me-2">Ajouter un participant</a>
+        <a href="{{ path('event_list') }}" class="btn btn-secondary">Retour à la liste des événements</a>
+    </div>
+</div>
+{% endblock %}
